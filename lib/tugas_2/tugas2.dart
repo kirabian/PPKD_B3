@@ -56,7 +56,7 @@ class Tugas2 extends StatelessWidget {
               children: [
                 Expanded(
                   child: Container(
-                    padding: EdgeInsets.all(16),
+                    padding: EdgeInsets.all(11),
                     decoration: BoxDecoration(
                       color: Colors.blue[50],
                       borderRadius: BorderRadius.circular(12),
@@ -73,15 +73,16 @@ class Tugas2 extends StatelessWidget {
                 SizedBox(width: 16),
                 Expanded(
                   child: Container(
-                    padding: EdgeInsets.all(16),
+                    padding: EdgeInsets.all(25),
                     decoration: BoxDecoration(
                       color: Colors.blue[50],
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Column(
+                    child: Row(
                       children: [
                         Icon(Icons.phone, color: Colors.blue),
-                        SizedBox(height: 8),
+                        SizedBox(width: 12),
+                        Spacer(),
                         Text('0858-1168-3696'),
                       ],
                     ),
