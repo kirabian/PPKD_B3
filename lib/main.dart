@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ppkdb3/start.dart';
+import 'package:ppkdb3/tugas_2/tugas2.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
           seedColor: const Color.fromARGB(255, 255, 230, 0),
         ),
       ),
-      home: StartWidget(),
+      home: Tugas2(),
     );
   }
 }

@@ -30,43 +30,51 @@ class StartWidget extends StatelessWidget {
       //   },
       //   child: Icon(Icons.add),
       // ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Nama : Fabian Syah Al Ghiffari',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Bitcount',
-            ),
-          ),
-          Row(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          height: 300,
+          width: double.infinity,
+          color: const Color.fromARGB(255, 183, 214, 112),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(Icons.location_on),
-              SizedBox(width: 8.0),
               Text(
-                'Alamat : Jakarta',
+                'Nama : Fabian Syah Al Ghiffari',
                 style: TextStyle(
-                  fontSize: 22,
-                  color: const Color.fromARGB(255, 0, 0, 0),
-                  fontFamily: 'serif',
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Bitcount',
                 ),
+              ),
+              Row(
+                children: [
+                  Icon(Icons.location_on),
+                  SizedBox(width: 8.0),
+                  Text(
+                    'Alamat : Jakarta',
+                    style: TextStyle(
+                      fontSize: 22,
+                      color: const Color.fromARGB(255, 0, 0, 0),
+                      fontFamily: 'serif',
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Text(
+                    "Passionate web developer with a focus on creating dynamic and responsive web applications. Skilled in HTML, CSS, JavaScript, and various frameworks. Committed to delivering high-quality code and enhancing user experiences.",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: const Color.fromARGB(255, 136, 136, 136),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-          Column(
-            children: [
-              Text(
-                "Passionate web developer with a focus on creating dynamic and responsive web applications. Skilled in HTML, CSS, JavaScript, and various frameworks. Committed to delivering high-quality code and enhancing user experiences.",
-                style: TextStyle(
-                  fontSize: 18,
-                  color: const Color.fromARGB(255, 136, 136, 136),
-                ),
-              ),
-            ],
-          ),
-        ],
+        ),
       ),
     );
   }
