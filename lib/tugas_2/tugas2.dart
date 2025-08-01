@@ -31,8 +31,13 @@ class Tugas2 extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.blue[100],
                   shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: AssetImage(
+                      'assets/images/profile.jpg',
+                    ), // Ganti path sesuai lokasi foto Anda
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                child: Icon(Icons.person, size: 80, color: Colors.blue[700]),
               ),
             ),
             SizedBox(height: 24),
@@ -127,7 +132,7 @@ class Tugas2 extends StatelessWidget {
               children: [
                 Icon(Icons.location_on, color: Colors.blue),
                 SizedBox(width: 8),
-                Text('Kota Anda'),
+                Text('Jakarta'),
               ],
             ),
           ],
