@@ -127,6 +127,26 @@ class Tugas2 extends StatelessWidget {
               ],
             ),
             SizedBox(height: 24),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Biografi Saya',
+                  style: TextStyle(
+                    fontFamily: "serif",
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'Saya adalah seorang siswa PPKDJP yang sedang belajar mobile programming. Saya sangat tertarik dengan teknologi dan ingin mengembangkan aplikasi yang bermanfaat bagi banyak orang.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+                ),
+              ],
+            ),
+            SizedBox(height: 24),
             Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
