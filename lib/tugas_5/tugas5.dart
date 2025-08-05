@@ -21,14 +21,31 @@ class _Tugas5State extends State<Tugas5> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () {
-          setState(() {
-            counter++;
-          });
-          print(counter);
-        },
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            heroTag: "btnMinus",
+            child: const Icon(Icons.remove),
+            onPressed: () {
+              setState(() {
+                counter--;
+              });
+              print(counter);
+            },
+          ),
+          const SizedBox(width: 16),
+          FloatingActionButton(
+            heroTag: "btnPlus",
+            child: const Icon(Icons.add),
+            onPressed: () {
+              setState(() {
+                counter++;
+              });
+              print(counter);
+            },
+          ),
+        ],
       ),
       appBar: AppBar(
         title: const Text("User Interaction Example"),
