@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ppkdb3/tugas_4/kopi_kenangan_clone.dart';
-import 'package:ppkdb3/tugas_5/tugas5.dart';
+import 'package:ppkdb3/tugas_6/tugas6.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,7 +33,7 @@ class MyApp extends StatelessWidget {
           seedColor: const Color.fromARGB(255, 255, 230, 0),
         ),
       ),
-      home: Tugas5(),
+      home: WattpadClone(),
     );
   }
 }

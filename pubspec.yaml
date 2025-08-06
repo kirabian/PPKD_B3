@@ -61,6 +61,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/coffees/
+    - assets/images/logos/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -82,6 +83,10 @@ flutter:
     - family: Bungee
       fonts:
         - asset: assets/fonts/bunge/Bungee-Regular.ttf
+
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/roboto/Roboto-Regular.ttf
 
     - family: Serif
       fonts:
