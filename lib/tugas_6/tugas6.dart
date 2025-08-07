@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class WattpadClone extends StatefulWidget {
   const WattpadClone({super.key});
@@ -10,6 +11,20 @@ class WattpadClone extends StatefulWidget {
 
 class _WattpadCloneState extends State<WattpadClone> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  // final TextEditingController _passwordController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    // Initialize any controllers or variables here if needed
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    // Dispose of any controllers or resources here if needed
+    super.dispose();
+  }
 
   void _showFeatureNotAvailableDialog() {
     showDialog(
@@ -17,17 +32,39 @@ class _WattpadCloneState extends State<WattpadClone> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text("Fitur Belum Tersedia"),
-          content: const Text(
-            "Maaf, login dengan metode ini belum tersedia saat ini. Silakan gunakan email dan password.",
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  height: 150, // Ukuran yang lebih reasonable
+                  width: 150,
+                  child: Lottie.asset(
+                    'assets/animations/error.json',
+                    fit: BoxFit.contain, // Ganti dari cover ke contain
+                    frameRate: FrameRate.max, // Untuk animasi lebih smooth
+                  ),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  "Maaf, login dengan metode ini belum tersedia\nsaat ini. Silakan gunakan email dan password.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16),
+                ),
+              ],
+            ),
           ),
           actions: [
             TextButton(
-              child: const Text("OK"),
+              child: const Text("OK", style: TextStyle(fontSize: 16)),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
           ],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
         );
       },
     );
@@ -75,6 +112,7 @@ class _WattpadCloneState extends State<WattpadClone> {
             Center(
               child: Form(
                 key: _formKey,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -123,6 +161,7 @@ class _WattpadCloneState extends State<WattpadClone> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: TextFormField(
+                        controller: _emailController,
                         style: const TextStyle(
                           color: Colors.white,
                           fontFamily: 'Roboto',
@@ -143,9 +182,16 @@ class _WattpadCloneState extends State<WattpadClone> {
                           ),
                           border: const UnderlineInputBorder(),
                         ),
+                        // onTap: () {
+                        //   print("Email field tapped");
+                        //   // Tambahkan aksi lain yang Anda inginkan di sini
+                        // },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your email';
+                          }
+                          if (!value.contains('@')) {
+                            return 'Please enter a valid email';
                           }
                           if (!value.contains('@')) {
                             return 'Please enter a valid email';
@@ -191,6 +237,7 @@ class _WattpadCloneState extends State<WattpadClone> {
                     SizedBox(
                       width: 287,
                       height: 56,
+
                       child: ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
