@@ -11,28 +11,44 @@ class WattpadClone extends StatefulWidget {
 class _WattpadCloneState extends State<WattpadClone> {
   final _formKey = GlobalKey<FormState>();
 
+  void _showFeatureNotAvailableDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Fitur Belum Tersedia"),
+          content: const Text(
+            "Maaf, login dengan metode ini belum tersedia saat ini. Silakan gunakan email dan password.",
+          ),
+          actions: [
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF00224F),
+      backgroundColor: const Color(0xFF00224F),
       appBar: AppBar(
         backgroundColor: const Color(0xFF00224F),
-        automaticallyImplyLeading: false, // Nonaktifkan back button default
+        automaticallyImplyLeading: false,
         title: Stack(
           alignment: Alignment.center,
           children: [
-            // Back button di kiri
-            Align(
+            const Align(
               alignment: Alignment.centerLeft,
-              child: IconButton(
-                icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
-                onPressed: () => Navigator.pop(context),
-              ),
+              child: Icon(Icons.arrow_back_ios_new, color: Colors.white),
             ),
-            // Judul dan logo di tengah
             Row(
-              mainAxisSize: MainAxisSize
-                  .min, // Penting agar row tidak mengambil lebar penuh
+              mainAxisSize: MainAxisSize.min,
               children: [
                 const Text(
                   'wattpad clone',
@@ -51,8 +67,7 @@ class _WattpadCloneState extends State<WattpadClone> {
             ),
           ],
         ),
-        centerTitle:
-            true, // Tetap diperlukan untuk memastikan Stack berada di tengah
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Stack(
@@ -63,20 +78,20 @@ class _WattpadCloneState extends State<WattpadClone> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(height: 20),
-                    Text(
+                    const SizedBox(height: 20),
+                    const Text(
                       'Login',
                       style: TextStyle(
                         fontFamily: 'Roboto',
                         color: Colors.white,
-                        fontSize: 18,
+                        fontSize: 26,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 40),
+                    const SizedBox(height: 80),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Text(
+                      child: const Text(
                         "Hello, Welcome Back!",
                         style: TextStyle(
                           fontFamily: 'Roboto',
@@ -91,7 +106,7 @@ class _WattpadCloneState extends State<WattpadClone> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Text(
+                          child: const Text(
                             "Welcome back Please\nsign in again",
                             textAlign: TextAlign.center,
                             style: TextStyle(
@@ -104,23 +119,29 @@ class _WattpadCloneState extends State<WattpadClone> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 40),
+                    const SizedBox(height: 80),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: TextFormField(
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Roboto',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
                         decoration: InputDecoration(
-                          prefixIcon: Icon(
+                          prefixIcon: const Icon(
                             Icons.email,
                             color: Color(0xFFC4C4C4),
                           ),
                           labelText: 'Email',
-                          labelStyle: TextStyle(
+                          labelStyle: const TextStyle(
                             color: Colors.white,
                             fontFamily: 'Roboto',
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                           ),
-                          border: UnderlineInputBorder(),
+                          border: const UnderlineInputBorder(),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -133,23 +154,29 @@ class _WattpadCloneState extends State<WattpadClone> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: TextFormField(
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Roboto',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
                         decoration: InputDecoration(
-                          prefixIcon: Icon(
+                          prefixIcon: const Icon(
                             Icons.lock,
                             color: Color(0xFFC4C4C4),
                           ),
                           labelText: 'Password',
-                          labelStyle: TextStyle(
+                          labelStyle: const TextStyle(
                             color: Colors.white,
                             fontFamily: 'Roboto',
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                           ),
-                          border: UnderlineInputBorder(),
+                          border: const UnderlineInputBorder(),
                         ),
                         obscureText: true,
                         validator: (value) {
@@ -160,14 +187,18 @@ class _WattpadCloneState extends State<WattpadClone> {
                         },
                       ),
                     ),
-                    SizedBox(height: 40),
+                    const SizedBox(height: 40),
                     SizedBox(
                       width: 287,
                       height: 56,
                       child: ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            // Process data.
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("Form Validasi Berhasil"),
+                              ),
+                            );
                           }
                         },
                         child: const Text(
@@ -176,19 +207,19 @@ class _WattpadCloneState extends State<WattpadClone> {
                             color: Colors.black,
                             fontFamily: "Roboto",
                             fontSize: 16,
-                            fontWeight: FontWeight.bold, // Warna teks hitam
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(height: 80),
+                    const SizedBox(height: 80),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
                           width: 141,
                           height: 0.8,
-                          color: Color(0xFF12325E),
+                          color: const Color(0xFF12325E),
                         ),
                         const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 8),
@@ -205,74 +236,80 @@ class _WattpadCloneState extends State<WattpadClone> {
                         Container(
                           width: 141,
                           height: 0.8,
-                          color: Color(0xFF12325E),
+                          color: const Color(0xFF12325E),
                         ),
                       ],
                     ),
-                    SizedBox(height: 40),
+                    const SizedBox(height: 40),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        // Kotak Facebook
-                        Container(
-                          width: 327,
-                          height: 48,
-                          decoration: BoxDecoration(
-                            color: Color(0xFF11325C),
-                            borderRadius: BorderRadius.circular(22),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/images/logos/Facebook.png',
-                                width: 24,
-                                height: 24,
-                              ), // Logo Facebook
-                              SizedBox(width: 8),
-                              Text(
-                                'Continue with Facebook',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                  fontFamily: "Roboto",
+                        // Facebook Button
+                        GestureDetector(
+                          onTap: _showFeatureNotAvailableDialog,
+                          child: Container(
+                            width: 327,
+                            height: 48,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF11325C),
+                              borderRadius: BorderRadius.circular(22),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/images/logos/Facebook.png',
+                                  width: 24,
+                                  height: 24,
                                 ),
-                              ),
-                            ],
+                                const SizedBox(width: 8),
+                                const Text(
+                                  'Facebook',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    fontFamily: "Roboto",
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        SizedBox(height: 16), // Spasi antar kotak
-                        // Kotak Gmail
-                        Container(
-                          width: 327,
-                          height: 48,
-                          decoration: BoxDecoration(
-                            color: Color(0xFF11325C),
-                            borderRadius: BorderRadius.circular(22),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/images/logos/iconGoogle.png',
-                                width: 24,
-                                height: 24,
-                              ),
-                              SizedBox(width: 8),
-                              Text(
-                                'Continue with Gmail',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                  fontFamily: "Roboto",
+                        const SizedBox(height: 16),
+                        // Gmail Button
+                        GestureDetector(
+                          onTap: _showFeatureNotAvailableDialog,
+                          child: Container(
+                            width: 327,
+                            height: 48,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF11325C),
+                              borderRadius: BorderRadius.circular(22),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/images/logos/iconGoogle.png',
+                                  width: 24,
+                                  height: 24,
                                 ),
-                              ),
-                            ],
+                                const SizedBox(width: 8),
+                                const Text(
+                                  'Gmail',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    fontFamily: "Roboto",
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        SizedBox(height: 16),
+                        const SizedBox(height: 16),
                         Center(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -284,7 +321,7 @@ class _WattpadCloneState extends State<WattpadClone> {
                                       print("Text Rich Tapped");
                                     },
                                   text: "Already have an account? ",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 12,
                                     color: Color(0xFF999999),
@@ -292,7 +329,7 @@ class _WattpadCloneState extends State<WattpadClone> {
                                   children: [
                                     TextSpan(
                                       text: "Sign In",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w700,
                                         color: Color(0xFF3C7EEE),
