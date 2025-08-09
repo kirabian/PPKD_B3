@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:ppkdb3/tugas_6/dashboard_page.dart';
 import 'package:ppkdb3/tugas_6/tugas6.dart';
+// import 'package:ppkdb3/wattpad_clone.dart';
 
 void main() {
+  initializeDateFormatting("id_ID");
   runApp(const MyApp());
 }
 
@@ -40,7 +43,16 @@ class MyApp extends StatelessWidget {
       routes: {
         '/dashboard': (context) =>
             DashboardPage(userData: {'email': '', 'password': ''}),
+        '/tugas6': (context) => const WattpadClone(),
       },
+
+      // home: const Tugas6(),
+      // home: const SizeboxTesting(),
+      // home: const DatePickerTest(),
+      // home: const SwitchTesting(),
+      // home: const DropdownTesting(),
+      // home: const AboutMePage(),
+      // home: const CheckboxTesting(),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -97,22 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text('You have pushed the button this many times:'),
