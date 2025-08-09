@@ -12,17 +12,19 @@ class WattpadClone extends StatefulWidget {
 class _WattpadCloneState extends State<WattpadClone> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
-  // final TextEditingController _passwordController = TextEditingController();
-  @override
-  void initState() {
-    super.initState();
-    // Initialize any controllers or variables here if needed
-  }
+  final TextEditingController _passwordController = TextEditingController();
+
+  // Daftar akun yang valid
+  final Map<String, String> validUsers = {
+    'admin@test.com': 'admin123',
+    'kim@test.com': 'password123',
+    'user@example.com': 'userpass',
+  };
 
   @override
   void dispose() {
     _emailController.dispose();
-    // Dispose of any controllers or resources here if needed
+    _passwordController.dispose();
     super.dispose();
   }
 
@@ -37,12 +39,12 @@ class _WattpadCloneState extends State<WattpadClone> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(
-                  height: 150, // Ukuran yang lebih reasonable
+                  height: 150,
                   width: 150,
                   child: Lottie.asset(
                     'assets/animations/error.json',
-                    fit: BoxFit.contain, // Ganti dari cover ke contain
-                    frameRate: FrameRate.max, // Untuk animasi lebih smooth
+                    fit: BoxFit.contain,
+                    frameRate: FrameRate.max,
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -68,6 +70,29 @@ class _WattpadCloneState extends State<WattpadClone> {
         );
       },
     );
+  }
+
+  void _handleLogin() {
+    if (_formKey.currentState!.validate()) {
+      final email = _emailController.text.trim();
+      final password = _passwordController.text.trim();
+
+      if (validUsers.containsKey(email) && validUsers[email] == password) {
+        final Map<String, String> userData = {
+          'email': email,
+          'password': password,
+        };
+
+        Navigator.pushNamed(context, '/dashboard', arguments: userData);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Email atau password salah'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 
   @override
@@ -107,294 +132,235 @@ class _WattpadCloneState extends State<WattpadClone> {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            Center(
-              child: Form(
-                key: _formKey,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 20),
-                    const Text(
+        child: Center(
+          child: Form(
+            key: _formKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: 20),
+                const Text(
+                  'Login',
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    color: Colors.white,
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 80),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Text(
+                    "Hello, Welcome Back!",
+                    style: TextStyle(
+                      fontFamily: 'Roboto',
+                      color: Colors.white,
+                      fontSize: 26,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Text(
+                    "Welcome back Please\nsign in again",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 80),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: TextFormField(
+                    controller: _emailController,
+                    style: const TextStyle(color: Colors.white),
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.email, color: Color(0xFFC4C4C4)),
+                      labelText: 'Email',
+                      labelStyle: TextStyle(color: Colors.white),
+                      border: UnderlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your email';
+                      }
+                      if (!value.contains('@')) {
+                        return 'Please enter a valid email';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: TextFormField(
+                    controller: _passwordController,
+                    obscureText: true,
+                    style: const TextStyle(color: Colors.white),
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.lock, color: Color(0xFFC4C4C4)),
+                      labelText: 'Password',
+                      labelStyle: TextStyle(color: Colors.white),
+                      border: UnderlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your password';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                const SizedBox(height: 40),
+                SizedBox(
+                  width: 287,
+                  height: 56,
+                  child: ElevatedButton(
+                    onPressed: _handleLogin,
+                    child: const Text(
                       'Login',
                       style: TextStyle(
-                        fontFamily: 'Roboto',
-                        color: Colors.white,
-                        fontSize: 26,
+                        color: Colors.black,
+                        fontFamily: "Roboto",
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 80),
+                  ),
+                ),
+                const SizedBox(height: 80),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: const Text(
-                        "Hello, Welcome Back!",
+                      width: 141,
+                      height: 0.8,
+                      color: Color(0xFF12325E),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8),
+                      child: Text(
+                        "or",
                         style: TextStyle(
-                          fontFamily: 'Roboto',
-                          color: Colors.white,
-                          fontSize: 26,
-                          fontWeight: FontWeight.w600,
+                          fontFamily: "Roboto",
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: Color.fromARGB(255, 246, 250, 255),
                         ),
                       ),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: const Text(
-                            "Welcome back Please\nsign in again",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: 'Roboto',
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 80),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: TextFormField(
-                        controller: _emailController,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Roboto',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(
-                            Icons.email,
-                            color: Color(0xFFC4C4C4),
-                          ),
-                          labelText: 'Email',
-                          labelStyle: const TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Roboto',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          border: const UnderlineInputBorder(),
-                        ),
-                        // onTap: () {
-                        //   print("Email field tapped");
-                        //   // Tambahkan aksi lain yang Anda inginkan di sini
-                        // },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your email';
-                          }
-                          if (!value.contains('@')) {
-                            return 'Please enter a valid email';
-                          }
-                          if (!value.contains('@')) {
-                            return 'Please enter a valid email';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: TextFormField(
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Roboto',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(
-                            Icons.lock,
-                            color: Color(0xFFC4C4C4),
-                          ),
-                          labelText: 'Password',
-                          labelStyle: const TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Roboto',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          border: const UnderlineInputBorder(),
-                        ),
-                        obscureText: true,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your password';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    const SizedBox(height: 40),
-                    SizedBox(
-                      width: 287,
-                      height: 56,
-
-                      child: ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text("Form Validasi Berhasil"),
-                              ),
-                            );
-                          }
-                        },
-                        child: const Text(
-                          'Login',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: "Roboto",
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 80),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 141,
-                          height: 0.8,
-                          color: const Color(0xFF12325E),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8),
-                          child: Text(
-                            "or",
-                            style: TextStyle(
-                              fontFamily: "Roboto",
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: Color.fromARGB(255, 246, 250, 255),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 141,
-                          height: 0.8,
-                          color: const Color(0xFF12325E),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 40),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        // Facebook Button
-                        GestureDetector(
-                          onTap: _showFeatureNotAvailableDialog,
-                          child: Container(
-                            width: 327,
-                            height: 48,
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF11325C),
-                              borderRadius: BorderRadius.circular(22),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  'assets/images/logos/Facebook.png',
-                                  width: 24,
-                                  height: 24,
-                                ),
-                                const SizedBox(width: 8),
-                                const Text(
-                                  'Facebook',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14,
-                                    fontFamily: "Roboto",
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        // Gmail Button
-                        GestureDetector(
-                          onTap: _showFeatureNotAvailableDialog,
-                          child: Container(
-                            width: 327,
-                            height: 48,
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF11325C),
-                              borderRadius: BorderRadius.circular(22),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  'assets/images/logos/iconGoogle.png',
-                                  width: 24,
-                                  height: 24,
-                                ),
-                                const SizedBox(width: 8),
-                                const Text(
-                                  'Gmail',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14,
-                                    fontFamily: "Roboto",
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text.rich(
-                                TextSpan(
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      print("Text Rich Tapped");
-                                    },
-                                  text: "Already have an account? ",
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 12,
-                                    color: Color(0xFF999999),
-                                  ),
-                                  children: [
-                                    TextSpan(
-                                      text: "Sign In",
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w700,
-                                        color: Color(0xFF3C7EEE),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                    Container(
+                      width: 141,
+                      height: 0.8,
+                      color: Color(0xFF12325E),
                     ),
                   ],
                 ),
-              ),
+                const SizedBox(height: 40),
+                GestureDetector(
+                  onTap: _showFeatureNotAvailableDialog,
+                  child: Container(
+                    width: 327,
+                    height: 48,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF11325C),
+                      borderRadius: BorderRadius.circular(22),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/logos/Facebook.png',
+                          width: 24,
+                          height: 24,
+                        ),
+                        const SizedBox(width: 8),
+                        const Text(
+                          'Facebook',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
+                            fontFamily: "Roboto",
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                GestureDetector(
+                  onTap: _showFeatureNotAvailableDialog,
+                  child: Container(
+                    width: 327,
+                    height: 48,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF11325C),
+                      borderRadius: BorderRadius.circular(22),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/logos/iconGoogle.png',
+                          width: 24,
+                          height: 24,
+                        ),
+                        const SizedBox(width: 8),
+                        const Text(
+                          'Gmail',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
+                            fontFamily: "Roboto",
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text.rich(
+                      TextSpan(
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            print("Text Rich Tapped");
+                          },
+                        text: "Already have an account? ",
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12,
+                          color: Color(0xFF999999),
+                        ),
+                        children: [
+                          TextSpan(
+                            text: "Sign In",
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              color: Color(0xFF3C7EEE),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

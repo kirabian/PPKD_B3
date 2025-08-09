@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ppkdb3/tugas_6/dashboard_page.dart';
 import 'package:ppkdb3/tugas_6/tugas6.dart';
 
 void main() {
@@ -34,6 +35,13 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: WattpadClone(),
+      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      // debugShowCheckedModeBanner: false,
+      routes: {
+        '/dashboard': (context) =>
+            DashboardPage(userData: {'email': '', 'password': ''}),
+      },
+      debugShowCheckedModeBanner: false,
     );
   }
 }
