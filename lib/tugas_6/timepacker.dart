@@ -1,7 +1,9 @@
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:ppkdb3/tugas_6/app_drawer.dart';
 
 class TimePackerTesting extends StatefulWidget {
+  static const String routeName = '/timepacker';
   const TimePackerTesting({super.key});
 
   @override
@@ -21,6 +23,7 @@ class _TimePackerTestingState extends State<TimePackerTesting> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const AppDrawer(userData: {}),
       appBar: AppBar(
         title: const Text('Time Picker Testing'),
         centerTitle: true,

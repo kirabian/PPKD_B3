@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:ppkdb3/tugas_6/app_drawer.dart';
 
 class DropdownTesting extends StatefulWidget {
+  static const String routeName = '/dropdown';
   const DropdownTesting({super.key});
 
   @override
@@ -9,45 +11,51 @@ class DropdownTesting extends StatefulWidget {
 
 class _DropdownTestingState extends State<DropdownTesting> {
   String? dropdownSelect;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Dropdown Testing'), centerTitle: true),
+      drawer: const AppDrawer(userData: {}),
+      appBar: AppBar(title: const Text('Dropdown Testing'), centerTitle: true),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Ini halaman Dropdown Testing",
-              style: TextStyle(fontSize: 18),
-            ),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: DropdownButton(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                "Ini halaman Dropdown Testing",
+                style: TextStyle(fontSize: 18),
+              ),
+              const SizedBox(height: 20),
+              DropdownButton<String>(
                 value: dropdownSelect,
-                hint: Text("Pilih Produk"),
+                hint: const Text("Pilih Produk"),
                 items: ["Elektronik", "Pakaian", "Makanan", "Lainnya"].map((
                   String value,
                 ) {
-                  return DropdownMenuItem(value: value, child: Text(value));
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
                 }).toList(),
                 onChanged: (value) {
-                  setState(() {});
-                  dropdownSelect = value;
+                  setState(() {
+                    dropdownSelect = value;
+                  });
                 },
                 isExpanded: true,
-                icon: Icon(Icons.arrow_drop_down),
+                icon: const Icon(Icons.arrow_drop_down),
               ),
-            ),
-            SizedBox(height: 20),
-            Text(
-              dropdownSelect == null
-                  ? "Anda belum memilih produk"
-                  : "Produk yang dipilih: $dropdownSelect",
-              style: TextStyle(fontSize: 16),
-            ),
-          ],
+              const SizedBox(height: 20),
+              Text(
+                dropdownSelect == null
+                    ? "Anda belum memilih produk"
+                    : "Produk yang dipilih: $dropdownSelect",
+                style: const TextStyle(fontSize: 16),
+              ),
+            ],
+          ),
         ),
       ),
     );

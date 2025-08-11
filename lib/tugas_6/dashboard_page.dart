@@ -1,13 +1,10 @@
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:ppkdb3/tugas_6/checkbox.dart';
-import 'package:ppkdb3/tugas_6/datepicker.dart';
-import 'package:ppkdb3/tugas_6/dropdown.dart';
-import 'package:ppkdb3/tugas_6/switch.dart';
-import 'package:ppkdb3/tugas_6/timepacker.dart';
+import 'package:ppkdb3/tugas_6/app_drawer.dart';
 import 'package:ppkdb3/tugas_6/tugas6.dart';
 
 class DashboardPage extends StatefulWidget {
+  static const String routeName = '/dashboard';
   final Map<String, String> userData;
 
   const DashboardPage({super.key, required this.userData});
@@ -75,107 +72,7 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(color: Color.fromARGB(255, 0, 0, 0)),
-              child: Text(
-                'Menu',
-                style: TextStyle(color: Colors.white, fontSize: 24),
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.home),
-              title: const Text('Home'),
-              onTap: () {
-                setState(() => _selectedIndex = 0);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.info),
-              title: const Text('About Me'),
-              onTap: () {
-                setState(() => _selectedIndex = 4);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.check_box),
-              title: const Text('CheckBox Testing'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SizeboxTesting(),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.switch_left),
-              title: const Text('Switch Testing'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SwitchTesting(),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.expand_more),
-              title: const Text('Dropdown Testing'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const DropdownTesting(),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.date_range),
-              title: const Text('DatePicker Testing'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const DatePickerTest(),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.timelapse),
-              title: const Text('TimePicker Testing'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const TimePackerTesting(),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.logout),
-              title: const Text('Logout'),
-              onTap: () {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  '/tugas6',
-                  (route) => false,
-                );
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: AppDrawer(userData: widget.userData),
       extendBody: true,
       appBar: AppBar(
         title: const Text("Dashboard"),

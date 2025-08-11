@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:ppkdb3/tugas_6/app_drawer.dart';
 
 class DatePickerTest extends StatefulWidget {
+  static const String routeName = '/datepicker';
   const DatePickerTest({super.key});
 
   @override
@@ -15,6 +17,8 @@ class _DatePickerTestState extends State<DatePickerTest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const AppDrawer(userData: {}),
+
       appBar: AppBar(title: const Text("Pilih Tanggal Lahir")),
       body: Center(
         child: Padding(

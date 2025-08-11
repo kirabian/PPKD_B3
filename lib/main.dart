@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:ppkdb3/tugas_6/checkbox.dart';
 import 'package:ppkdb3/tugas_6/dashboard_page.dart';
-import 'package:ppkdb3/tugas_6/tugas6.dart';
-// import 'package:ppkdb3/wattpad_clone.dart';
+import 'package:ppkdb3/tugas_6/datepicker.dart';
+import 'package:ppkdb3/tugas_6/dropdown.dart';
+import 'package:ppkdb3/tugas_6/switch.dart';
+import 'package:ppkdb3/tugas_6/timepacker.dart';
+// Import semua halaman yang akan digunakan dalam navigasi
+import 'package:ppkdb3/tugas_6/tugas6.dart'; // Halaman Login (WattpadClone)
+// Tambahkan import untuk halaman lain jika ada (misal: dropdown, timepacker)
 
 void main() {
+  // Inisialisasi format tanggal untuk bahasa Indonesia
   initializeDateFormatting("id_ID");
   runApp(const MyApp());
 }
@@ -12,119 +19,45 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'PRofile Saya',
+      title: 'Aplikasi Saya',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color.fromARGB(255, 255, 230, 0),
         ),
+        useMaterial3: true,
       ),
-      home: WattpadClone(),
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      // debugShowCheckedModeBanner: false,
-      routes: {
-        '/dashboard': (context) =>
-            DashboardPage(userData: {'email': '', 'password': ''}),
-        '/tugas6': (context) => const WattpadClone(),
-      },
-
-      // home: const Tugas6(),
-      // home: const SizeboxTesting(),
-      // home: const DatePickerTest(),
-      // home: const SwitchTesting(),
-      // home: const DropdownTesting(),
-      // home: const AboutMePage(),
-      // home: const CheckboxTesting(),
       debugShowCheckedModeBanner: false,
-    );
-  }
-}
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+      // 1. Tentukan halaman awal menggunakan initialRoute
+      // Rute '/' akan menunjuk ke WattpadClone (halaman login)
+      initialRoute: '/',
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
+      // 2. Daftarkan semua rute aplikasi di sini
+      routes: {
+        // Rute untuk halaman Login
+        '/': (context) => const WattpadClone(),
 
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
+        // Rute untuk Dashboard. Ini akan mengambil argumen (userData)
+        // yang dikirim dari halaman login.
+        DashboardPage.routeName: (context) {
+          final args =
+              ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+          return DashboardPage(userData: args);
+        },
 
-  final String title;
+        // Daftarkan halaman lain dari drawer menggunakan routeName statis mereka
+        CheckBoxTesting.routeName: (context) => const CheckBoxTesting(),
+        SwitchTesting.routeName: (context) => const SwitchTesting(),
+        DatePickerTest.routeName: (context) => const DatePickerTest(),
+        TimePackerTesting.routeName: (context) => const TimePackerTesting(),
+        DropdownTesting.routeName: (context) => const DropdownTesting(),
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+        // Tambahkan halaman lain di sini jika diperlukan
+        // DropdownTesting.routeName: (context) => const DropdownTesting(),
+      },
     );
   }
 }

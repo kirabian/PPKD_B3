@@ -72,6 +72,8 @@ class _WattpadCloneState extends State<WattpadClone> {
     );
   }
 
+  // Di dalam file wattpad_clone.dart, fungsi _handleLogin()
+
   void _handleLogin() {
     if (_formKey.currentState!.validate()) {
       final email = _emailController.text.trim();
@@ -83,7 +85,14 @@ class _WattpadCloneState extends State<WattpadClone> {
           'password': password,
         };
 
-        Navigator.pushNamed(context, '/dashboard', arguments: userData);
+        // --- UBAH BAGIAN INI ---
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          '/dashboard',
+          (Route<dynamic> route) => false, // Hapus semua route sebelumnya
+          arguments: userData,
+        );
+        // ------------------------
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
