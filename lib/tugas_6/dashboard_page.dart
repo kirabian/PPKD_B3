@@ -1,14 +1,11 @@
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:ppkdb3/tugas_6/about_me.dart';
 import 'package:ppkdb3/tugas_6/checkbox.dart';
 import 'package:ppkdb3/tugas_6/datepicker.dart';
 import 'package:ppkdb3/tugas_6/dropdown.dart';
 import 'package:ppkdb3/tugas_6/switch.dart';
 import 'package:ppkdb3/tugas_6/timepacker.dart';
 import 'package:ppkdb3/tugas_6/tugas6.dart';
-
-enum _SelectedTab { home, favourite, add, search, profile }
 
 class DashboardPage extends StatefulWidget {
   final Map<String, String> userData;
@@ -20,19 +17,59 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  _SelectedTab _selectedTab = _SelectedTab.home;
+  int _selectedIndex = 0;
 
-  void _handleIndexChanged(int index) {
-    setState(() {
-      _selectedTab = _SelectedTab.values[index];
-    });
+  // daftar halaman yang akan ditampilkan sesuai index
+  late final List<Widget> _widgetOptions = [
+    _buildHomeContent(),
+    const Center(
+      child: Text("Favourite Page", style: TextStyle(color: Colors.white)),
+    ),
+    const Center(
+      child: Text("Add Page", style: TextStyle(color: Colors.white)),
+    ),
+    const Center(
+      child: Text("Search Page", style: TextStyle(color: Colors.white)),
+    ),
+    const AboutMePage(),
+  ];
 
-    if (_SelectedTab.values[index] == _SelectedTab.profile) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const AboutMePage()),
-      );
-    }
+  Widget _buildHomeContent() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            'Selamat Datang di Dashboard!',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 24),
+          Text(
+            "Email: ${widget.userData['email']}",
+            style: const TextStyle(fontSize: 16, color: Colors.white),
+          ),
+          Text(
+            "Password: ${widget.userData['password']}",
+            style: const TextStyle(fontSize: 16, color: Colors.white),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const WattpadClone()),
+                (Route<dynamic> route) => false,
+              );
+            },
+            child: const Text('Logout'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -42,11 +79,9 @@ class _DashboardPageState extends State<DashboardPage> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 0, 0, 0),
-              ),
-              child: const Text(
+            const DrawerHeader(
+              decoration: BoxDecoration(color: Color.fromARGB(255, 0, 0, 0)),
+              child: Text(
                 'Menu',
                 style: TextStyle(color: Colors.white, fontSize: 24),
               ),
@@ -55,30 +90,22 @@ class _DashboardPageState extends State<DashboardPage> {
               leading: const Icon(Icons.home),
               title: const Text('Home'),
               onTap: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        DashboardPage(userData: widget.userData),
-                  ),
-                );
+                setState(() => _selectedIndex = 0);
+                Navigator.pop(context);
               },
             ),
             ListTile(
               leading: const Icon(Icons.info),
               title: const Text('About Me'),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AboutMePage()),
-                );
+                setState(() => _selectedIndex = 4);
+                Navigator.pop(context);
               },
             ),
             ListTile(
               leading: const Icon(Icons.check_box),
               title: const Text('CheckBox Testing'),
               onTap: () {
-                // Implement settings functionality here
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -91,7 +118,6 @@ class _DashboardPageState extends State<DashboardPage> {
               leading: const Icon(Icons.switch_left),
               title: const Text('Switch Testing'),
               onTap: () {
-                // Implement settings functionality here
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -104,7 +130,6 @@ class _DashboardPageState extends State<DashboardPage> {
               leading: const Icon(Icons.expand_more),
               title: const Text('Dropdown Testing'),
               onTap: () {
-                // Implement settings functionality here
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -117,7 +142,6 @@ class _DashboardPageState extends State<DashboardPage> {
               leading: const Icon(Icons.date_range),
               title: const Text('DatePicker Testing'),
               onTap: () {
-                // Implement settings functionality here
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -130,7 +154,6 @@ class _DashboardPageState extends State<DashboardPage> {
               leading: const Icon(Icons.timelapse),
               title: const Text('TimePicker Testing'),
               onTap: () {
-                // Implement settings functionality here
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -157,12 +180,11 @@ class _DashboardPageState extends State<DashboardPage> {
       appBar: AppBar(
         title: const Text("Dashboard"),
         centerTitle: true,
-        backgroundColor: Colors.transparent, // transparan
-        elevation: 0, // hilangkan shadow
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       body: Stack(
         children: [
-          // background image
           SizedBox(
             height: MediaQuery.of(context).size.height,
             child: Image.asset(
@@ -170,68 +192,27 @@ class _DashboardPageState extends State<DashboardPage> {
               fit: BoxFit.fitHeight,
             ),
           ),
-
-          // content
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Selamat Datang di Dashboard!',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 255, 255, 255),
-                  ),
-                ),
-                const SizedBox(height: 24),
-                Text(
-                  "Email: ${widget.userData['email']}",
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Color.fromARGB(255, 255, 255, 255),
-                  ),
-                ),
-                Text(
-                  "Password: ${widget.userData['password']}",
-                  style: const TextStyle(fontSize: 16, color: Colors.white),
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const WattpadClone(),
-                      ),
-                      (Route<dynamic> route) => false,
-                    );
-                  },
-                  child: const Text('Logout'),
-                ),
-              ],
-            ),
-          ),
+          Center(child: _widgetOptions[_selectedIndex]),
         ],
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 10),
         child: CrystalNavigationBar(
-          currentIndex: _SelectedTab.values.indexOf(_selectedTab),
+          currentIndex: _selectedIndex,
           unselectedItemColor: Colors.white70,
           backgroundColor: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.1),
           borderWidth: 2,
           outlineBorderColor: Colors.white,
-          onTap: _handleIndexChanged,
+          onTap: (value) {
+            setState(() {
+              _selectedIndex = value;
+            });
+          },
           items: [
-            // NOTE: pass IconData (Icons.*), not Icon(...)
             CrystalNavigationBarItem(
               icon: Icons.home,
               unselectedIcon: Icons.home_outlined,
-              selectedColor: const Color.fromARGB(255, 255, 255, 255),
-              badge: Badge(
-                label: Text("9+", style: TextStyle(color: Colors.white)),
-              ),
+              selectedColor: Colors.white,
             ),
             CrystalNavigationBarItem(
               icon: Icons.favorite,
@@ -251,10 +232,42 @@ class _DashboardPageState extends State<DashboardPage> {
             CrystalNavigationBarItem(
               icon: Icons.person,
               unselectedIcon: Icons.person_outline,
-              selectedColor: const Color.fromARGB(255, 255, 0, 0),
+              selectedColor: Colors.red,
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class AboutMePage extends StatelessWidget {
+  const AboutMePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Text(
+            'About This App',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          SizedBox(height: 20),
+          Text(
+            'Aplikasi ini dibuat untuk mempelajari\n'
+            'materi Flutter seperti Navigasi, Drawer,\n'
+            'Bottom Navigation Bar, dan berbagai\n'
+            'komponen UI lainnya.',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 16, color: Colors.white),
+          ),
+        ],
       ),
     );
   }
