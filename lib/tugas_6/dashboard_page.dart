@@ -230,8 +230,8 @@ class _DashboardPageState extends State<DashboardPage> {
               selectedColor: Colors.white,
             ),
             CrystalNavigationBarItem(
-              icon: Icons.person,
-              unselectedIcon: Icons.person_outline,
+              icon: Icons.info_outline,
+              unselectedIcon: Icons.info_outline,
               selectedColor: Colors.red,
             ),
           ],
