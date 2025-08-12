@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:ppkdb3/tugas_6/app_bottom_nav.dart';
 import 'package:ppkdb3/tugas_6/app_drawer.dart';
 
 class DatePickerTest extends StatefulWidget {
@@ -12,6 +13,27 @@ class DatePickerTest extends StatefulWidget {
 }
 
 class _DatePickerTestState extends State<DatePickerTest> {
+  int _selectedIndex = 0;
+
+  // 3. Buat fungsi untuk menangani ketika item di-tap
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    // Di sini Anda bisa menambahkan logika navigasi atau aksi lain
+    // berdasarkan index yang di-tap. Contoh:
+    switch (index) {
+      case 0:
+        // Navigasi ke halaman Home
+        // Navigator.pushNamed(context, '/home');
+        break;
+      case 1:
+        // Navigasi ke halaman Favorite
+        break;
+      // dan seterusnya...
+    }
+  }
+
   String? tanggalLahir;
 
   @override
@@ -59,6 +81,10 @@ class _DatePickerTestState extends State<DatePickerTest> {
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: AppBottomNavigationBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
       ),
     );
   }

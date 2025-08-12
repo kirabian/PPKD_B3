@@ -1,37 +1,17 @@
-import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:ppkdb3/tugas_6/app_drawer.dart';
-import 'package:ppkdb3/tugas_6/tugas6.dart';
+import 'package:ppkdb3/tugas_6/tugas6.dart'; // Impor WattpadClone jika masih dibutuhkan
 
-class DashboardPage extends StatefulWidget {
-  static const String routeName = '/dashboard';
+// Ubah nama dari DashboardPage menjadi DashboardContent agar lebih jelas
+// dan ubah menjadi StatelessWidget karena tidak mengelola state lagi.
+class DashboardContent extends StatelessWidget {
+  // Hapus routeName karena ini bukan lagi halaman penuh
   final Map<String, String> userData;
 
-  const DashboardPage({super.key, required this.userData});
+  const DashboardContent({super.key, required this.userData});
 
   @override
-  State<DashboardPage> createState() => _DashboardPageState();
-}
-
-class _DashboardPageState extends State<DashboardPage> {
-  int _selectedIndex = 0;
-
-  // daftar halaman yang akan ditampilkan sesuai index
-  late final List<Widget> _widgetOptions = [
-    _buildHomeContent(),
-    const Center(
-      child: Text("Favourite Page", style: TextStyle(color: Colors.white)),
-    ),
-    const Center(
-      child: Text("Add Page", style: TextStyle(color: Colors.white)),
-    ),
-    const Center(
-      child: Text("Search Page", style: TextStyle(color: Colors.white)),
-    ),
-    const AboutMePage(),
-  ];
-
-  Widget _buildHomeContent() {
+  Widget build(BuildContext context) {
+    // HANYA return kontennya, BUKAN Scaffold
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -46,11 +26,11 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
           const SizedBox(height: 24),
           Text(
-            "Email: ${widget.userData['email']}",
+            "Email: ${userData['email']}",
             style: const TextStyle(fontSize: 16, color: Colors.white),
           ),
           Text(
-            "Password: ${widget.userData['password']}",
+            "Password: ${userData['password']}",
             style: const TextStyle(fontSize: 16, color: Colors.white),
           ),
           const SizedBox(height: 20),
@@ -68,76 +48,9 @@ class _DashboardPageState extends State<DashboardPage> {
       ),
     );
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: AppDrawer(userData: widget.userData),
-      extendBody: true,
-      appBar: AppBar(
-        title: const Text("Dashboard"),
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      body: Stack(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: Image.asset(
-              "assets/images/backgrounds/download.jpg",
-              fit: BoxFit.fitHeight,
-            ),
-          ),
-          Center(child: _widgetOptions[_selectedIndex]),
-        ],
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 10),
-        child: CrystalNavigationBar(
-          currentIndex: _selectedIndex,
-          unselectedItemColor: Colors.white70,
-          backgroundColor: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.1),
-          borderWidth: 2,
-          outlineBorderColor: Colors.white,
-          onTap: (value) {
-            setState(() {
-              _selectedIndex = value;
-            });
-          },
-          items: [
-            CrystalNavigationBarItem(
-              icon: Icons.home,
-              unselectedIcon: Icons.home_outlined,
-              selectedColor: Colors.white,
-            ),
-            CrystalNavigationBarItem(
-              icon: Icons.favorite,
-              unselectedIcon: Icons.favorite_border,
-              selectedColor: Colors.red,
-            ),
-            CrystalNavigationBarItem(
-              icon: Icons.add,
-              unselectedIcon: Icons.add_circle_outline,
-              selectedColor: Colors.white,
-            ),
-            CrystalNavigationBarItem(
-              icon: Icons.search,
-              unselectedIcon: Icons.search_outlined,
-              selectedColor: Colors.white,
-            ),
-            CrystalNavigationBarItem(
-              icon: Icons.info_outline,
-              unselectedIcon: Icons.info_outline,
-              selectedColor: Colors.red,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }
 
+// Widget AboutMePage bisa tetap sama karena sudah merupakan widget konten
 class AboutMePage extends StatelessWidget {
   const AboutMePage({super.key});
 

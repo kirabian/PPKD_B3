@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:ppkdb3/tugas_6/app_bottom_nav.dart';
 import 'package:ppkdb3/tugas_6/app_drawer.dart';
 
 class CheckBoxTesting extends StatefulWidget {
-  // 1. Menambahkan nama rute untuk navigasi
   static const String routeName = '/checkbox';
 
   const CheckBoxTesting({super.key});
@@ -13,20 +13,36 @@ class CheckBoxTesting extends StatefulWidget {
 
 class _CheckBoxTestingState extends State<CheckBoxTesting> {
   bool isCheck = false;
+  // 2. Tambahkan state untuk melacak item yang dipilih di bottom navigation
+  int _selectedIndex = 0;
+
+  // 3. Buat fungsi untuk menangani ketika item di-tap
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    // Di sini Anda bisa menambahkan logika navigasi atau aksi lain
+    // berdasarkan index yang di-tap. Contoh:
+    switch (index) {
+      case 0:
+        // Navigasi ke halaman Home
+        // Navigator.pushNamed(context, '/home');
+        break;
+      case 1:
+        // Navigasi ke halaman Favorite
+        break;
+      // dan seterusnya...
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Ambil userData yang dikirim melalui argumen rute
     final arguments = ModalRoute.of(context)?.settings.arguments;
-    final userData =
-        arguments as Map<String, dynamic>? ??
-        {}; // Default ke map kosong jika null
+    final userData = arguments as Map<String, dynamic>? ?? {};
 
     return Scaffold(
-      // 2. Berikan userData yang diterima ke AppDrawer
       drawer: AppDrawer(userData: userData),
       appBar: AppBar(
-        // 3. Memperbaiki judul halaman
         title: const Text('CheckBox Testing'),
         centerTitle: true,
         backgroundColor: Colors.blueAccent,
@@ -62,6 +78,11 @@ class _CheckBoxTestingState extends State<CheckBoxTesting> {
             ),
           ],
         ),
+      ),
+      // 4. Tambahkan AppBottomNavigationBar ke Scaffold
+      bottomNavigationBar: AppBottomNavigationBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
       ),
     );
   }

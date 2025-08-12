@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ppkdb3/tugas_6/app_bottom_nav.dart';
 import 'package:ppkdb3/tugas_6/app_drawer.dart';
 
 class DropdownTesting extends StatefulWidget {
@@ -10,6 +11,27 @@ class DropdownTesting extends StatefulWidget {
 }
 
 class _DropdownTestingState extends State<DropdownTesting> {
+  int _selectedIndex = 0;
+
+  // 3. Buat fungsi untuk menangani ketika item di-tap
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    // Di sini Anda bisa menambahkan logika navigasi atau aksi lain
+    // berdasarkan index yang di-tap. Contoh:
+    switch (index) {
+      case 0:
+        // Navigasi ke halaman Home
+        // Navigator.pushNamed(context, '/home');
+        break;
+      case 1:
+        // Navigasi ke halaman Favorite
+        break;
+      // dan seterusnya...
+    }
+  }
+
   String? dropdownSelect;
 
   @override
@@ -57,6 +79,10 @@ class _DropdownTestingState extends State<DropdownTesting> {
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: AppBottomNavigationBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
       ),
     );
   }

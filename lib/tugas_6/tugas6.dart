@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:ppkdb3/tugas_6/main_page.dart'; // Impor MainPage untuk routeName
 
 class WattpadClone extends StatefulWidget {
   const WattpadClone({super.key});
@@ -42,7 +43,7 @@ class _WattpadCloneState extends State<WattpadClone> {
                   height: 150,
                   width: 150,
                   child: Lottie.asset(
-                    'assets/animations/error.json',
+                    'assets/animations/error.json', // Pastikan file ini ada
                     fit: BoxFit.contain,
                     frameRate: FrameRate.max,
                   ),
@@ -72,8 +73,6 @@ class _WattpadCloneState extends State<WattpadClone> {
     );
   }
 
-  // Di dalam file wattpad_clone.dart, fungsi _handleLogin()
-
   void _handleLogin() {
     if (_formKey.currentState!.validate()) {
       final email = _emailController.text.trim();
@@ -85,14 +84,13 @@ class _WattpadCloneState extends State<WattpadClone> {
           'password': password,
         };
 
-        // --- UBAH BAGIAN INI ---
+        // Navigasi ke MainPage setelah login berhasil
         Navigator.pushNamedAndRemoveUntil(
           context,
-          '/dashboard',
+          MainPage.routeName, // Menggunakan routeName dari MainPage
           (Route<dynamic> route) => false, // Hapus semua route sebelumnya
           arguments: userData,
         );
-        // ------------------------
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -252,7 +250,7 @@ class _WattpadCloneState extends State<WattpadClone> {
                     Container(
                       width: 141,
                       height: 0.8,
-                      color: Color(0xFF12325E),
+                      color: const Color(0xFF12325E),
                     ),
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8),
@@ -269,7 +267,7 @@ class _WattpadCloneState extends State<WattpadClone> {
                     Container(
                       width: 141,
                       height: 0.8,
-                      color: Color(0xFF12325E),
+                      color: const Color(0xFF12325E),
                     ),
                   ],
                 ),

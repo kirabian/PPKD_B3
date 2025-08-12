@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:ppkdb3/tugas9/bukulist.dart';
+import 'package:ppkdb3/tugas9/bukumap.dart';
+import 'package:ppkdb3/tugas9/modelcallsbuku.dart';
 import 'package:ppkdb3/tugas_6/checkbox.dart';
-// Import semua halaman Anda
-import 'package:ppkdb3/tugas_6/dashboard_page.dart';
 import 'package:ppkdb3/tugas_6/datepicker.dart';
 import 'package:ppkdb3/tugas_6/dropdown.dart';
+import 'package:ppkdb3/tugas_6/main_page.dart'; // DIUBAH: Impor MainPage, bukan DashboardPage
 import 'package:ppkdb3/tugas_6/switch.dart';
 import 'package:ppkdb3/tugas_6/timepacker.dart';
 // ... import halaman lain
@@ -27,9 +29,10 @@ class AppDrawer extends StatelessWidget {
     }
 
     // LOGIKA INTI:
-    // Jika halaman saat ini adalah Dashboard, gunakan PUSH.
+    // Jika halaman saat ini adalah MainPage (halaman utama), gunakan PUSH.
     // Jika tidak, berarti kita sedang di halaman lain, gunakan REPLACEMENT.
-    if (currentRouteName == DashboardPage.routeName) {
+    if (currentRouteName == MainPage.routeName) {
+      // DIUBAH
       Navigator.pushNamed(context, newRouteName);
     } else {
       Navigator.pushReplacementNamed(context, newRouteName);
@@ -49,20 +52,31 @@ class AppDrawer extends StatelessWidget {
               backgroundColor: Colors.white,
               child: Icon(Icons.person, size: 40),
             ),
+            decoration: const BoxDecoration(
+              color: Colors.blue, // Anda bisa menambahkan dekorasi
+              image: DecorationImage(
+                image: AssetImage(
+                  "assets/images/backgrounds/download.jpg",
+                ), // Contoh background
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
 
           ListTile(
             leading: const Icon(Icons.dashboard),
             title: const Text('Dashboard'),
             onTap: () {
-              // Untuk kembali ke Dashboard, selalu gunakan popUntil
+              // Untuk kembali ke halaman utama, selalu gunakan popUntil
               Navigator.of(context).popUntil(
                 (route) =>
-                    route.settings.name == DashboardPage.routeName ||
+                    route.settings.name == MainPage.routeName || // DIUBAH
                     route.isFirst,
               );
             },
           ),
+
+          const Divider(), // Garis pemisah untuk kerapian
 
           ListTile(
             leading: const Icon(Icons.check_box),
@@ -83,14 +97,35 @@ class AppDrawer extends StatelessWidget {
           ),
 
           ListTile(
-            leading: const Icon(Icons.lock_clock),
-            title: const Text('TImePacker Testing'),
+            leading: const Icon(Icons.access_time), // Icon lebih sesuai
+            title: const Text('TimePicker Testing'), // Typo diperbaiki
             onTap: () => _navigateTo(context, TimePackerTesting.routeName),
           ),
+
           ListTile(
             leading: const Icon(Icons.arrow_drop_down_circle_outlined),
             title: const Text('Dropdown Testing'),
             onTap: () => _navigateTo(context, DropdownTesting.routeName),
+          ),
+
+          const Divider(),
+
+          ListTile(
+            leading: const Icon(Icons.book),
+            title: const Text('Book List'),
+            onTap: () => _navigateTo(context, BukuList.routeName),
+          ),
+
+          ListTile(
+            leading: const Icon(Icons.menu_book_rounded),
+            title: const Text('Book List Map'),
+            onTap: () => _navigateTo(context, BukuMap.routeName),
+          ),
+
+          ListTile(
+            leading: const Icon(Icons.library_books),
+            title: const Text('Book Model'),
+            onTap: () => _navigateTo(context, ModelBuku.routeName),
           ),
 
           // ... tambahkan untuk item lain dengan pola yang sama

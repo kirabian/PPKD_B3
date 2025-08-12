@@ -1,5 +1,6 @@
 import 'package:day_night_switch/day_night_switch.dart';
 import 'package:flutter/material.dart';
+import 'package:ppkdb3/tugas_6/app_bottom_nav.dart';
 import 'package:ppkdb3/tugas_6/app_drawer.dart';
 
 class SwitchTesting extends StatefulWidget {
@@ -13,6 +14,27 @@ class SwitchTesting extends StatefulWidget {
 }
 
 class _SwitchTestingState extends State<SwitchTesting> {
+  int _selectedIndex = 0;
+
+  // 3. Buat fungsi untuk menangani ketika item di-tap
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    // Di sini Anda bisa menambahkan logika navigasi atau aksi lain
+    // berdasarkan index yang di-tap. Contoh:
+    switch (index) {
+      case 0:
+        // Navigasi ke halaman Home
+        // Navigator.pushNamed(context, '/home');
+        break;
+      case 1:
+        // Navigasi ke halaman Favorite
+        break;
+      // dan seterusnya...
+    }
+  }
+
   bool val = false; // false = terang, true = gelap
 
   @override
@@ -75,6 +97,10 @@ class _SwitchTestingState extends State<SwitchTesting> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: AppBottomNavigationBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
       ),
     );
   }

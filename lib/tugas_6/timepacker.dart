@@ -1,5 +1,6 @@
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:ppkdb3/tugas_6/app_bottom_nav.dart';
 import 'package:ppkdb3/tugas_6/app_drawer.dart';
 
 class TimePackerTesting extends StatefulWidget {
@@ -11,6 +12,27 @@ class TimePackerTesting extends StatefulWidget {
 }
 
 class _TimePackerTestingState extends State<TimePackerTesting> {
+  int _selectedIndex = 0;
+
+  // 3. Buat fungsi untuk menangani ketika item di-tap
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    // Di sini Anda bisa menambahkan logika navigasi atau aksi lain
+    // berdasarkan index yang di-tap. Contoh:
+    switch (index) {
+      case 0:
+        // Navigasi ke halaman Home
+        // Navigator.pushNamed(context, '/home');
+        break;
+      case 1:
+        // Navigasi ke halaman Favorite
+        break;
+      // dan seterusnya...
+    }
+  }
+
   // Gunakan tipe Time dari package
   Time selectedTime = Time(hour: 12, minute: 0);
 
@@ -58,6 +80,10 @@ class _TimePackerTestingState extends State<TimePackerTesting> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: AppBottomNavigationBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
       ),
     );
   }
