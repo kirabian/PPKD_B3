@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ppkdb3/tugas10/peminjamanbuku.dart';
 import 'package:ppkdb3/tugas9/bukulist.dart';
 import 'package:ppkdb3/tugas9/bukumap.dart';
 import 'package:ppkdb3/tugas9/modelcallsbuku.dart';
@@ -126,6 +127,14 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.library_books),
             title: const Text('Book Model'),
             onTap: () => _navigateTo(context, ModelBuku.routeName),
+          ),
+
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.home),
+            title: const Text('Peminjaman Buku'),
+            onTap: () =>
+                _navigateTo(context, PeminjamanBuku.routeName), // DIUBAH
           ),
 
           // ... tambahkan untuk item lain dengan pola yang sama

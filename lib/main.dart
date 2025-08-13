@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:ppkdb3/tugas10/peminjamanbuku.dart';
 import 'package:ppkdb3/tugas9/bukulist.dart';
 import 'package:ppkdb3/tugas9/bukumap.dart';
 import 'package:ppkdb3/tugas9/modelcallsbuku.dart';
@@ -58,6 +59,7 @@ class MyApp extends StatelessWidget {
         BukuMap.routeName: (context) => const BukuMap(),
         BukuList.routeName: (context) => const BukuList(),
         ModelBuku.routeName: (context) => const ModelBuku(),
+        PeminjamanBuku.routeName: (context) => const PeminjamanBuku(),
 
         // Tambahkan halaman lain di sini jika diperlukan
       },
