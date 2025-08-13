@@ -7,12 +7,14 @@ class BuktiPeminjaman extends StatelessWidget {
     this.phone,
     required this.name,
     required this.buku,
+    required this.domisili,
   });
 
   final String email;
   final String? phone;
   final String name;
   final String buku;
+  final String domisili;
 
   @override
   Widget build(BuildContext context) {
@@ -111,6 +113,16 @@ class BuktiPeminjaman extends StatelessWidget {
                     title: const Text("Nomor Telepon"),
                     subtitle: Text(
                       phone ?? "Tidak ada",
+                      style: textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.location_city),
+                    title: const Text("domisili"),
+                    subtitle: Text(
+                      domisili,
                       style: textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),

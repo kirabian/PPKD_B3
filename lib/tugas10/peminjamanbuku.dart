@@ -29,6 +29,7 @@ class _PeminjamanBukuState extends State<PeminjamanBuku> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController bukuController = TextEditingController();
+  final TextEditingController domisiliController = TextEditingController();
 
   @override
   void dispose() {
@@ -37,6 +38,7 @@ class _PeminjamanBukuState extends State<PeminjamanBuku> {
     nameController.dispose();
     phoneController.dispose();
     bukuController.dispose();
+    domisiliController.dispose();
     super.dispose();
   }
 
@@ -92,6 +94,7 @@ class _PeminjamanBukuState extends State<PeminjamanBuku> {
                           ? null
                           : phoneController.text,
                       buku: bukuController.text,
+                      domisili: domisiliController.text,
                     ),
                   ),
                 );
@@ -213,6 +216,26 @@ class _PeminjamanBukuState extends State<PeminjamanBuku> {
                     border: OutlineInputBorder(),
                   ),
                   keyboardType: TextInputType.phone,
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  "Domisili",
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(height: 8),
+                TextFormField(
+                  controller: domisiliController,
+                  decoration: const InputDecoration(
+                    hintText: "Contoh: Jakarta Barat",
+                    prefixIcon: Icon(Icons.location_city),
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Domisili tidak boleh kosong';
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 32),
 
