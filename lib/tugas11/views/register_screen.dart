@@ -1,29 +1,60 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:ppkdb3/tugas11/preference/shared_preference.dart';
+import 'package:ppkdb3/tugas11/model/user.dart';
 import 'package:ppkdb3/tugas11/sqflite/db_helper.dart';
-import 'package:ppkdb3/tugas11/views/register_screen.dart';
 import 'package:ppkdb3/tugas_6/main_page.dart';
 
-class WattpadClone extends StatefulWidget {
-  static const String routeName = '/login';
-  const WattpadClone({super.key});
+class RegisterScreen extends StatefulWidget {
+  static const String routeName = '/register';
+  const RegisterScreen({super.key});
 
   @override
-  State<WattpadClone> createState() => _WattpadCloneState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _WattpadCloneState extends State<WattpadClone> {
-  final _formKey = GlobalKey<FormState>();
+class _RegisterScreenState extends State<RegisterScreen> {
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
+  bool isLoading = false;
 
   @override
   void dispose() {
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  // Fungsi untuk register user
+  void registerUser() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() => isLoading = true);
+
+    final name = _nameController.text.trim();
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    final user = User(email: email, password: password, name: name);
+
+    await DbHelper.registerUser(user);
+
+    setState(() => isLoading = false);
+
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text("Pendaftaran berhasil")));
+
+    // Navigasi ke MainPage (atau bisa diarahkan ke LoginPage)
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      MainPage.routeName,
+      (Route<dynamic> route) => false,
+    );
   }
 
   void _showFeatureNotAvailableDialog() {
@@ -47,7 +78,7 @@ class _WattpadCloneState extends State<WattpadClone> {
                 ),
                 const SizedBox(height: 16),
                 const Text(
-                  "Maaf, login dengan metode ini belum tersedia\nsaat ini. Silakan gunakan email dan password.",
+                  "Maaf, Register dengan metode ini belum tersedia\nsaat ini. Silakan gunakan email, nama, dan password.",
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 16),
                 ),
@@ -68,32 +99,6 @@ class _WattpadCloneState extends State<WattpadClone> {
         );
       },
     );
-  }
-
-  Future<void> login() async {
-    final email = _emailController.text.trim();
-    final password = _passwordController.text.trim();
-
-    if (email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Email dan Password tidak boleh kosong")),
-      );
-      return;
-    }
-
-    final userData = await DbHelper.loginUser(email, password);
-    if (userData != null) {
-      PreferenceHandler.saveLogin();
-      Navigator.pushReplacementNamed(
-        context,
-        MainPage.routeName,
-        arguments: userData,
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Email atau Password salah")),
-      );
-    }
   }
 
   @override
@@ -142,7 +147,7 @@ class _WattpadCloneState extends State<WattpadClone> {
               children: [
                 const SizedBox(height: 20),
                 const Text(
-                  'Login',
+                  'Register',
                   style: TextStyle(
                     fontFamily: 'Roboto',
                     color: Colors.white,
@@ -154,7 +159,7 @@ class _WattpadCloneState extends State<WattpadClone> {
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Text(
-                    "Hello, Welcome Back!",
+                    "Create your account!",
                     style: TextStyle(
                       fontFamily: 'Roboto',
                       color: Colors.white,
@@ -166,7 +171,7 @@ class _WattpadCloneState extends State<WattpadClone> {
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Text(
-                    "Welcome back Please\nsign in again",
+                    "Fill in the details below to register",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Roboto',
@@ -177,6 +182,30 @@ class _WattpadCloneState extends State<WattpadClone> {
                   ),
                 ),
                 const SizedBox(height: 80),
+
+                // Name Field
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: TextFormField(
+                    controller: _nameController,
+                    style: const TextStyle(color: Colors.white),
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.person, color: Color(0xFFC4C4C4)),
+                      labelText: 'Name',
+                      labelStyle: TextStyle(color: Colors.white),
+                      border: UnderlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your name';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                // Email Field
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: TextFormField(
@@ -200,6 +229,8 @@ class _WattpadCloneState extends State<WattpadClone> {
                   ),
                 ),
                 const SizedBox(height: 20),
+
+                // Password Field
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: TextFormField(
@@ -216,28 +247,38 @@ class _WattpadCloneState extends State<WattpadClone> {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your password';
                       }
+                      if (value.length < 6) {
+                        return 'Password must be at least 6 characters';
+                      }
                       return null;
                     },
                   ),
                 ),
                 const SizedBox(height: 40),
+
+                // Register Button
                 SizedBox(
                   width: 287,
                   height: 56,
                   child: ElevatedButton(
-                    onPressed: login,
-                    child: const Text(
-                      'Login',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: "Roboto",
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    onPressed: isLoading ? null : registerUser,
+                    child: isLoading
+                        ? const CircularProgressIndicator(color: Colors.black)
+                        : const Text(
+                            'Register',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: "Roboto",
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                   ),
                 ),
+
                 const SizedBox(height: 80),
+
+                // Garis OR
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -266,6 +307,8 @@ class _WattpadCloneState extends State<WattpadClone> {
                   ],
                 ),
                 const SizedBox(height: 40),
+
+                // Facebook Button
                 GestureDetector(
                   onTap: _showFeatureNotAvailableDialog,
                   child: Container(
@@ -298,6 +341,8 @@ class _WattpadCloneState extends State<WattpadClone> {
                   ),
                 ),
                 const SizedBox(height: 16),
+
+                // Google Button
                 GestureDetector(
                   onTap: _showFeatureNotAvailableDialog,
                   child: Container(
@@ -330,6 +375,8 @@ class _WattpadCloneState extends State<WattpadClone> {
                   ),
                 ),
                 const SizedBox(height: 16),
+
+                // Already have account
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -343,7 +390,7 @@ class _WattpadCloneState extends State<WattpadClone> {
                         ),
                         children: [
                           TextSpan(
-                            text: "Sign Up",
+                            text: "Sign In",
                             style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w700,
@@ -351,13 +398,7 @@ class _WattpadCloneState extends State<WattpadClone> {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const RegisterScreen(),
-                                  ),
-                                );
+                                Navigator.pop(context);
                               },
                           ),
                         ],

@@ -1,22 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:ppkdb3/tugas_6/tugas6.dart'; // Impor WattpadClone jika masih dibutuhkan
+import 'package:ppkdb3/tugas11/widgets/log_out_button.dart';
 
-// Ubah nama dari DashboardPage menjadi DashboardContent agar lebih jelas
-// dan ubah menjadi StatelessWidget karena tidak mengelola state lagi.
 class DashboardContent extends StatelessWidget {
-  // Hapus routeName karena ini bukan lagi halaman penuh
-  final Map<String, String> userData;
-
-  const DashboardContent({super.key, required this.userData});
+  const DashboardContent({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // HANYA return kontennya, BUKAN Scaffold
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text(
+        children: const [
+          Text(
             'Selamat Datang di Dashboard!',
             style: TextStyle(
               fontSize: 24,
@@ -24,33 +18,16 @@ class DashboardContent extends StatelessWidget {
               color: Colors.white,
             ),
           ),
-          const SizedBox(height: 24),
-          Text(
-            "Email: ${userData['email']}",
-            style: const TextStyle(fontSize: 16, color: Colors.white),
-          ),
-          Text(
-            "Password: ${userData['password']}",
-            style: const TextStyle(fontSize: 16, color: Colors.white),
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => const WattpadClone()),
-                (Route<dynamic> route) => false,
-              );
-            },
-            child: const Text('Logout'),
-          ),
+          SizedBox(height: 24),
+
+          // 2. Ganti ElevatedButton yang lama dengan widget LogOutButton Anda
+          LogOutButton(),
         ],
       ),
     );
   }
 }
 
-// Widget AboutMePage bisa tetap sama karena sudah merupakan widget konten
 class AboutMePage extends StatelessWidget {
   const AboutMePage({super.key});
 
@@ -82,3 +59,27 @@ class AboutMePage extends StatelessWidget {
     );
   }
 }
+
+// Tambahkan widget LogOutButton di file terpisah agar lebih rapi.
+// Misalnya: lib/tugas11/logout_button.dart
+/*
+import 'package:flutter/material.dart';
+import 'package:ppkdb3/tugas11/preference/shared_preference.dart';
+import 'package:ppkdb3/tugas_6/tugas6.dart';
+
+class LogOutButton extends StatelessWidget {
+  const LogOutButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        // Logika logout sekarang terpusat di sini
+        PreferenceHandler.removeLogin();
+        Navigator.pushReplacementNamed(context, WattpadClone.routeName);
+      },
+      child: const Text("Keluar"),
+    );
+  }
+}
+*/

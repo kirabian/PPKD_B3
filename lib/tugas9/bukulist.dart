@@ -48,7 +48,7 @@ class _BukuListState extends State<BukuList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Daftar Buku')),
-      drawer: const AppDrawer(userData: {}),
+      drawer: const AppDrawer(),
       body: SingleChildScrollView(
         child: Stack(
           children: [

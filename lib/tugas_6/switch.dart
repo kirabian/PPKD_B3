@@ -39,15 +39,9 @@ class _SwitchTestingState extends State<SwitchTesting> {
 
   @override
   Widget build(BuildContext context) {
-    // Ambil userData yang dikirim melalui argumen rute
-    final arguments = ModalRoute.of(context)?.settings.arguments;
-    final userData =
-        arguments as Map<String, dynamic>? ??
-        {}; // Default ke map kosong jika null
-
     return Scaffold(
       // 2. Berikan userData yang diterima ke AppDrawer
-      drawer: AppDrawer(userData: userData),
+      drawer: AppDrawer(),
       backgroundColor: val ? Colors.grey[850] : Colors.white,
       appBar: AppBar(
         title: Text(

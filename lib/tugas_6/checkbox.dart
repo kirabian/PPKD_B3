@@ -37,11 +37,8 @@ class _CheckBoxTestingState extends State<CheckBoxTesting> {
 
   @override
   Widget build(BuildContext context) {
-    final arguments = ModalRoute.of(context)?.settings.arguments;
-    final userData = arguments as Map<String, dynamic>? ?? {};
-
     return Scaffold(
-      drawer: AppDrawer(userData: userData),
+      drawer: AppDrawer(),
       appBar: AppBar(
         title: const Text('CheckBox Testing'),
         centerTitle: true,

@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:ppkdb3/tugas10/peminjamanbuku.dart';
+import 'package:ppkdb3/tugas11/views/CatatanTugasSekolah/index_catatan.dart';
+import 'package:ppkdb3/tugas11/views/register_screen.dart';
+import 'package:ppkdb3/tugas11/views/splash_screen.dart';
+import 'package:ppkdb3/tugas11/views/user_screen.dart';
 import 'package:ppkdb3/tugas9/bukulist.dart';
 import 'package:ppkdb3/tugas9/bukumap.dart';
 import 'package:ppkdb3/tugas9/modelcallsbuku.dart';
 import 'package:ppkdb3/tugas_6/checkbox.dart';
 import 'package:ppkdb3/tugas_6/datepicker.dart';
 import 'package:ppkdb3/tugas_6/dropdown.dart';
-import 'package:ppkdb3/tugas_6/main_page.dart'; // DIUBAH: Impor MainPage
+import 'package:ppkdb3/tugas_6/main_page.dart';
 import 'package:ppkdb3/tugas_6/switch.dart';
 import 'package:ppkdb3/tugas_6/timepacker.dart';
-import 'package:ppkdb3/tugas_6/tugas6.dart'; // Halaman Login (WattpadClone)
+import 'package:ppkdb3/tugas_6/tugas6.dart';
 
 void main() {
-  // Inisialisasi format tanggal untuk bahasa Indonesia
   initializeDateFormatting("id_ID");
   runApp(const MyApp());
 }
@@ -33,24 +36,13 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
 
-      // Tentukan halaman awal aplikasi.
-      initialRoute: '/',
+      // Halaman pertama: Splash Screen
+      initialRoute: Day16SplashScreen.routeName,
 
-      // Daftarkan semua rute (halaman) aplikasi di sini.
       routes: {
-        // Rute untuk halaman Login
-        '/': (context) => const WattpadClone(),
-
-        // DIUBAH: Rute untuk MainPage (halaman utama setelah login).
-        // Ini akan mengambil argumen (userData) yang dikirim dari halaman login.
-        MainPage.routeName: (context) {
-          final args =
-              ModalRoute.of(context)!.settings.arguments as Map<String, String>;
-          return MainPage(userData: args);
-        },
-
-        // Daftarkan halaman lain dari drawer menggunakan routeName statis mereka
-        // agar navigasi dari AppDrawer berfungsi.
+        Day16SplashScreen.routeName: (context) => const Day16SplashScreen(),
+        '/login': (context) => const WattpadClone(),
+        MainPage.routeName: (context) => const MainPage(),
         CheckBoxTesting.routeName: (context) => const CheckBoxTesting(),
         SwitchTesting.routeName: (context) => const SwitchTesting(),
         DatePickerTest.routeName: (context) => const DatePickerTest(),
@@ -60,8 +52,9 @@ class MyApp extends StatelessWidget {
         BukuList.routeName: (context) => const BukuList(),
         ModelBuku.routeName: (context) => const ModelBuku(),
         PeminjamanBuku.routeName: (context) => const PeminjamanBuku(),
-
-        // Tambahkan halaman lain di sini jika diperlukan
+        RegisterScreen.routeName: (context) => const RegisterScreen(),
+        UserScreen.routeName: (context) => const UserScreen(),
+        CatatanScreen.routeName: (context) => const CatatanScreen(),
       },
     );
   }

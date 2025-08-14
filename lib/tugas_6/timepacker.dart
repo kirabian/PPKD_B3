@@ -45,7 +45,7 @@ class _TimePackerTestingState extends State<TimePackerTesting> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const AppDrawer(userData: {}),
+      drawer: const AppDrawer(),
       appBar: AppBar(
         title: const Text('Time Picker Testing'),
         centerTitle: true,

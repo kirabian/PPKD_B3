@@ -37,7 +37,7 @@ class _DropdownTestingState extends State<DropdownTesting> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const AppDrawer(userData: {}),
+      drawer: const AppDrawer(),
       appBar: AppBar(title: const Text('Dropdown Testing'), centerTitle: true),
       body: Center(
         child: Padding(

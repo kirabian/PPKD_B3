@@ -109,9 +109,7 @@ class _PeminjamanBukuState extends State<PeminjamanBuku> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: AppDrawer(
-        userData: const {},
-      ), // Pastikan AppDrawer bisa menerima data
+      drawer: AppDrawer(), // Pastikan AppDrawer bisa menerima data
       appBar: AppBar(
         title: const Text("Form Peminjaman Buku"),
         centerTitle: true,

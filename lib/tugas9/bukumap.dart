@@ -37,7 +37,7 @@ class _BukuMapState extends State<BukuMap> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Daftar Buku Serial Bumi')),
-      drawer: const AppDrawer(userData: {}),
+      drawer: const AppDrawer(),
       body: ListView.builder(
         itemCount: takdirKami.length,
         itemBuilder: (BuildContext context, int index) {
