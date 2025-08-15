@@ -39,6 +39,22 @@ class DbHelper {
     );
   }
 
+  static Future<void> updateUser(User user) async {
+    final db = await databaseHelper();
+    await db.update(
+      'users',
+      user.toMap(),
+      where: 'id = ?',
+      whereArgs: [user.id],
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  static Future<void> deleteUser(int id) async {
+    final db = await databaseHelper();
+    await db.delete('users', where: 'id = ?', whereArgs: [id]);
+  }
+
   static Future<User?> loginUser(String email, String password) async {
     final db = await databaseHelper();
     final List<Map<String, dynamic>> results = await db.query(
@@ -70,6 +86,31 @@ class DbHelper {
       catatan.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+  }
+
+  static Future<void> updateCatatan(Catatan catatan) async {
+    final db = await databaseHelper();
+    await db.update(
+      'catatan',
+      catatan.toMap(),
+      where: 'id = ?',
+      whereArgs: [catatan.id],
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  static Future<Catatan?> getCatatanById(int id) async {
+    final db = await databaseHelper();
+    final List<Map<String, dynamic>> results = await db.query(
+      'catatan',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+
+    if (results.isNotEmpty) {
+      return Catatan.fromMap(results.first);
+    }
+    return null;
   }
 
   static Future<List<Catatan>> getAllCatatan() async {

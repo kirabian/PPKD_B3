@@ -57,6 +57,99 @@ class _CatatanScreenState extends State<CatatanScreen> {
                   Text("Email: ${catatan.email}"),
                   Text("Event: ${catatan.namaEvent}"),
                   Text("Asal Kota: ${catatan.asalKota}"),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: () {
+                          // Dialog Edit
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              final namaController = TextEditingController(
+                                text: catatan.namaPeserta,
+                              );
+                              final emailController = TextEditingController(
+                                text: catatan.email,
+                              );
+                              final eventController = TextEditingController(
+                                text: catatan.namaEvent,
+                              );
+                              final kotaController = TextEditingController(
+                                text: catatan.asalKota,
+                              );
+
+                              return AlertDialog(
+                                title: const Text("Edit Catatan"),
+                                content: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      TextField(
+                                        controller: namaController,
+                                        decoration: const InputDecoration(
+                                          labelText: "Nama Peserta",
+                                        ),
+                                      ),
+                                      TextField(
+                                        controller: emailController,
+                                        decoration: const InputDecoration(
+                                          labelText: "Email",
+                                        ),
+                                      ),
+                                      TextField(
+                                        controller: eventController,
+                                        decoration: const InputDecoration(
+                                          labelText: "Nama Event",
+                                        ),
+                                      ),
+                                      TextField(
+                                        controller: kotaController,
+                                        decoration: const InputDecoration(
+                                          labelText: "Asal Kota",
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                actions: [
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      final updatedCatatan = Catatan(
+                                        id: catatan.id!,
+                                        namaPeserta: namaController.text.trim(),
+                                        email: emailController.text.trim(),
+                                        namaEvent: eventController.text.trim(),
+                                        asalKota: kotaController.text.trim(),
+                                      );
+                                      await DbHelper.updateCatatan(
+                                        updatedCatatan,
+                                      );
+                                      getCatatan();
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('Simpan'),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text('Batal'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () async {
+                          await DbHelper.deleteCatatan(catatan.id!);
+                          getCatatan();
+                        },
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
