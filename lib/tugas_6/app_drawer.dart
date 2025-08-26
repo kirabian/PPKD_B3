@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ppkdb3/tugas10/peminjamanbuku.dart';
 import 'package:ppkdb3/tugas11/views/CatatanTugasSekolah/index_catatan.dart';
+import 'package:ppkdb3/tugas11/views/rick_api/views/character_screen.dart';
 import 'package:ppkdb3/tugas11/views/user_screen.dart';
 import 'package:ppkdb3/tugas9/bukulist.dart';
 import 'package:ppkdb3/tugas9/bukumap.dart';
@@ -125,6 +126,12 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.school),
             title: const Text('Data Catatan Sekolah'),
             onTap: () => _navigateTo(context, CatatanScreen.routeName),
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.school),
+            title: const Text('Data API'),
+            onTap: () => _navigateTo(context, RickApi.routeName),
           ),
         ],
       ),

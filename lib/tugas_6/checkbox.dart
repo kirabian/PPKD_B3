@@ -26,7 +26,7 @@ class _CheckBoxTestingState extends State<CheckBoxTesting> {
     switch (index) {
       case 0:
         // Navigasi ke halaman Home
-        // Navigator.pushNamed(context, '/home');
+        Navigator.pushNamed(context, '/main');
         break;
       case 1:
         // Navigasi ke halaman Favorite
