@@ -10,34 +10,32 @@ GetUserModel getUserModelFromJson(String str) =>
 String getUserModelToJson(GetUserModel data) => json.encode(data.toJson());
 
 class GetUserModel {
-  String? message;
-  Data? data;
+  String message;
+  Data data;
 
-  GetUserModel({this.message, this.data});
+  GetUserModel({required this.message, required this.data});
 
-  factory GetUserModel.fromJson(Map<String, dynamic> json) => GetUserModel(
-    message: json["message"],
-    data: json["data"] == null ? null : Data.fromJson(json["data"]),
-  );
+  factory GetUserModel.fromJson(Map<String, dynamic> json) =>
+      GetUserModel(message: json["message"], data: Data.fromJson(json["data"]));
 
-  Map<String, dynamic> toJson() => {"message": message, "data": data?.toJson()};
+  Map<String, dynamic> toJson() => {"message": message, "data": data.toJson()};
 }
 
 class Data {
-  int? id;
-  String? name;
-  String? email;
+  int id;
+  String name;
+  String email;
   dynamic emailVerifiedAt;
-  String? createdAt;
-  String? updatedAt;
+  DateTime createdAt;
+  DateTime updatedAt;
 
   Data({
-    this.id,
-    this.name,
-    this.email,
-    this.emailVerifiedAt,
-    this.createdAt,
-    this.updatedAt,
+    required this.id,
+    required this.name,
+    required this.email,
+    required this.emailVerifiedAt,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -45,8 +43,8 @@ class Data {
     name: json["name"],
     email: json["email"],
     emailVerifiedAt: json["email_verified_at"],
-    createdAt: json["created_at"],
-    updatedAt: json["updated_at"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -54,7 +52,7 @@ class Data {
     "name": name,
     "email": email,
     "email_verified_at": emailVerifiedAt,
-    "created_at": createdAt,
-    "updated_at": updatedAt,
+    "created_at": createdAt.toIso8601String(),
+    "updated_at": updatedAt.toIso8601String(),
   };
 }

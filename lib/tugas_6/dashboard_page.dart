@@ -26,9 +26,9 @@ class _DashboardContentState extends State<DashboardContent> {
       final userProfile = await AuthenticationAPI.getProfile();
 
       setState(() {
-        name = userProfile.data?.name ?? "Nama tidak ditemukan";
-        email = userProfile.data?.email ?? "Email tidak ditemukan";
-        created_at = userProfile.data?.createdAt ?? "";
+        name = userProfile.data.name ?? "Nama tidak ditemukan";
+        email = userProfile.data.email ?? "Email tidak ditemukan";
+        created_at = (userProfile.data.createdAt ?? "").toString();
         errorMessage = null;
       });
     } catch (e) {
