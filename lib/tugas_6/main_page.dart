@@ -26,7 +26,7 @@ class _MainPageState extends State<MainPage> {
     const Center(
       child: Text("Search Page", style: TextStyle(color: Colors.white)),
     ),
-    const AboutMePage(),
+    // const AboutMePage(),
   ];
 
   void _onItemTapped(int index) {

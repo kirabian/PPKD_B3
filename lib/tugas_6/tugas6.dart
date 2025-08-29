@@ -2,8 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:ppkdb3/tugas11/preference/shared_preference.dart';
-import 'package:ppkdb3/tugas11/sqflite/db_helper.dart';
-import 'package:ppkdb3/tugas11/views/register_screen.dart';
+import 'package:ppkdb3/tugas14/api/register_user.dart';
+import 'package:ppkdb3/tugas14/register_screen.dart';
 import 'package:ppkdb3/tugas_6/main_page.dart';
 
 class WattpadClone extends StatefulWidget {
@@ -81,18 +81,31 @@ class _WattpadCloneState extends State<WattpadClone> {
       return;
     }
 
-    final userData = await DbHelper.loginUser(email, password);
-    if (userData != null) {
+    try {
+      // 🔑 panggil API login
+      final userModel = await AuthenticationAPI.loginUser(
+        email: email,
+        password: password,
+      );
+
+      // simpan token kalau ada
+      if (userModel.token != null) {
+        PreferenceHandler.saveToken(userModel.token!);
+      }
+
+      // simpan status login
       PreferenceHandler.saveLogin();
+
+      // pindah ke MainPage dengan membawa user data
       Navigator.pushReplacementNamed(
         context,
         MainPage.routeName,
-        arguments: userData,
+        arguments: userModel,
       );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Email atau Password salah")),
-      );
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Login gagal: $e")));
     }
   }
 
@@ -355,7 +368,7 @@ class _WattpadCloneState extends State<WattpadClone> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        const RegisterScreen(),
+                                        const RegisterScreenApi(),
                                   ),
                                 );
                               },

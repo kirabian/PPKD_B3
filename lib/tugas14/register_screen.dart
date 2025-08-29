@@ -1,19 +1,20 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:ppkdb3/tugas11/model/user.dart';
-import 'package:ppkdb3/tugas11/sqflite/db_helper.dart';
+import 'package:ppkdb3/tugas11/preference/shared_preference.dart';
+import 'package:ppkdb3/tugas14/api/register_user.dart';
+import 'package:ppkdb3/tugas14/model/register_model.dart';
 import 'package:ppkdb3/tugas_6/main_page.dart';
 
-class RegisterScreen extends StatefulWidget {
+class RegisterScreenApi extends StatefulWidget {
   static const String routeName = '/register';
-  const RegisterScreen({super.key});
+  const RegisterScreenApi({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<RegisterScreenApi> createState() => _RegisterScreenApiState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterScreenApiState extends State<RegisterScreenApi> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -29,8 +30,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
-  // Fungsi untuk register user
-  void registerUser() async {
+  // ==== LOGIKA REGISTER: PAKAI API (BUKAN DB HELPER) ==== //
+  Future<void> registerUser() async {
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => isLoading = true);
@@ -39,22 +40,41 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
 
-    final user = User(email: email, password: password, name: name);
+    try {
+      // Panggil API dari materi guru
+      final RegisterUserModel result = await AuthenticationAPI.registerUser(
+        email: email,
+        password: password,
+        name: name,
+      );
 
-    await DbHelper.registerUser(user);
+      // Simpan token ke SharedPreferences (kalau API ngasih token)
+      final token = result.data?.token?.toString() ?? "";
+      if (token.isNotEmpty) {
+        PreferenceHandler.saveToken(token);
+      }
 
-    setState(() => isLoading = false);
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Pendaftaran berhasil")));
 
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text("Pendaftaran berhasil")));
-
-    // Navigasi ke MainPage (atau bisa diarahkan ke LoginPage)
-    Navigator.pushNamedAndRemoveUntil(
-      context,
-      MainPage.routeName,
-      (Route<dynamic> route) => false,
-    );
+      // Navigasi ke MainPage (desain & flow asli dipertahankan)
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        MainPage.routeName,
+        (Route<dynamic> route) => false,
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Gagal mendaftar: $e")));
+    } finally {
+      if (mounted) {
+        setState(() => isLoading = false);
+      }
+    }
   }
 
   void _showFeatureNotAvailableDialog() {

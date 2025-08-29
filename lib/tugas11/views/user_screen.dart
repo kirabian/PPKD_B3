@@ -36,7 +36,7 @@ class _UserScreenState extends State<UserScreen> {
         itemBuilder: (context, index) {
           final user = users[index];
           return ListTile(
-            leading: CircleAvatar(child: Text(user.name[0])),
+            leading: CircleAvatar(child: Text(user.name[0].toUpperCase())),
             title: Text(user.name),
             subtitle: Text(user.email),
             trailing: Row(

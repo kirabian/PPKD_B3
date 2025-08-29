@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:ppkdb3/tugas10/peminjamanbuku.dart';
 import 'package:ppkdb3/tugas11/views/CatatanTugasSekolah/index_catatan.dart';
-import 'package:ppkdb3/tugas11/views/register_screen.dart';
 import 'package:ppkdb3/tugas11/views/rick_api/views/character_screen.dart';
 import 'package:ppkdb3/tugas11/views/splash_screen.dart';
 import 'package:ppkdb3/tugas11/views/user_screen.dart';
+import 'package:ppkdb3/tugas14/register_screen.dart';
 import 'package:ppkdb3/tugas9/bukulist.dart';
 import 'package:ppkdb3/tugas9/bukumap.dart';
 import 'package:ppkdb3/tugas9/modelcallsbuku.dart';
@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
         BukuList.routeName: (context) => const BukuList(),
         ModelBuku.routeName: (context) => const ModelBuku(),
         PeminjamanBuku.routeName: (context) => const PeminjamanBuku(),
-        RegisterScreen.routeName: (context) => const RegisterScreen(),
+        RegisterScreenApi.routeName: (context) => const RegisterScreenApi(),
         UserScreen.routeName: (context) => const UserScreen(),
         CatatanScreen.routeName: (context) => const CatatanScreen(),
         RickApi.routeName: (context) => const RickApi(),
